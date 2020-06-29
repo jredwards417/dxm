@@ -59,14 +59,21 @@ Set the -m flag to the maximum coverage in the input file.  Increasing -m above 
 DXM computational time scales with number of subpopulations, number of CpG, and maximum coverage. DXM solved eRRBS and Methyl-Seq samples for 2 subpopulations at average coverage of 60x in ~2 hours.
 
 The outputs of dxm_solveMethylation are:
+
 	- testSample_reconstructed_1_subpops.txt  - regions with 1 major profile
+
 	- testSample_reconstructed_2_subpops.txt  - regions with 2 major methylation profiles
+
 	- testSample_allVitProb.txt  - list of all relative posterior probabilities
 
 These are tab-delimited files. The format for testSample_reconstructed_2_subpops.txt is:
+
 	1. region name
+
 	2. position
+
 	3. methylation state of minor subpopulation
+
 	4. methylation state of major subpopulation
 
 
