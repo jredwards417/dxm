@@ -64,14 +64,10 @@ The outputs of dxm_solveMethylation are:
 - testSample_allVitProb.txt  - list of all relative posterior probabilities
 
 These are tab-delimited files. The format for testSample_reconstructed_2_subpops.txt is:
-
-	1. region name
-
-	2. position
-
-	3. methylation state of minor subpopulation
-
-	4. methylation state of major subpopulation
+1. region name
+2. position
+3. methylation state of minor subpopulation
+4. methylation state of major subpopulation
 
 
 ### dxm_callIDMR
