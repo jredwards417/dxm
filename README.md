@@ -1,6 +1,7 @@
 ﻿# dxm
 
-## Installation, using python3 (3.5+):
+## Installation
+Requires python3 (3.5+)
 
 ### Required Packages:
      numpy
