@@ -38,7 +38,9 @@ All data should be filtered such that coverage is below the maximum expected seq
 ### dxm_estimateFracs
 Estimate the fractional prevalence of underlying subpopulations (Optional).
 
-Example: dxm_estimateFracs -i sampleInput.bed -k 3 -o testPrevalence
+Example: 
+
+dxm_estimateFracs -i sampleInput.bed -k 3 -o testPrevalence
 
 The output is testPrevalence.txt. Each row is the fractional prevalence of a subpopulation, ordered smallest to largest. Note that this utility is INCOMPATIBLE with dxm_solveMethylation, which has its own fractional prevalence solution call.
 
@@ -46,7 +48,9 @@ The output is testPrevalence.txt. Each row is the fractional prevalence of a sub
 ### dxm_solveMethylation
 Deconvolves processed methylation sequencing data.
 
-Example: dxm_solveMethylation -i sampleInput.bed -o testSample
+Example: 
+
+dxm_solveMethylation -i sampleInput.bed -o testSample
 
 Notes: 
 
@@ -69,7 +73,9 @@ These are tab-delimited files. The format for testSample_reconstructed_2_subpops
 ### dxm_callIDMR
 Call intrasample differentially methylated regions from solved methylation profiles.
 
-Example: dxm_callIDMR -v testSample_allVitProb.txt -m testSample_reconstructed_2_subpops.txt -o putative
+Example: 
+
+dxm_callIDMR -v testSample_allVitProb.txt -m testSample_reconstructed_2_subpops.txt -o putative
 
 The output of dxm_callIDMR is putative_DXMdmrs.txt. Its format is column delimited
 	1. region name
