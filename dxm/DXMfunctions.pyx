@@ -57,6 +57,42 @@ def load_sample(fileName):
     helpLine = defaultdict(int)
     with open(fileName,'r') as INPUT:
         for line in INPUT:
+            data = line.strip().split() #split on whitespace
+            #data = line.strip().split("\s+")
+            #chr1	995363	995364	A1BG	1.0	37
+            chrom = data[0] # not used though
+            localPos = int(data[1])
+            localPos2 = int(data[2]) # not used though
+            geneName = data[3] # not used though
+            localMeth = float(data[4])
+            localCov = float(data[5])
+            positions.append(localPos)
+            methVals.append(localMeth)
+            coverages.append(localCov)
+            if geneName not in helpLine.keys():
+                gene.append(geneName)
+            helpLine[geneName]+=1
+    startIndex = 0
+    for i in range(0,len(gene)):
+        geneKey = gene[i]
+        dist = helpLine[geneKey]-1
+        endIndex = startIndex + dist
+        newTuple = (startIndex,endIndex)
+        indices.append(newTuple)
+        startIndex = endIndex + 1
+    outTuple = ( gene, np.array(methVals), np.array(positions,dtype = np.int32), np.array(coverages,dtype = np.int32), indices )
+    return outTuple
+
+# Processes an input sample. Sample is a tab delimited file with regionName, position, fractional methylation, sequencing coverage
+def load_sample_old(fileName):
+    positions = []
+    methVals = []
+    coverages = []
+    gene = []
+    indices = []
+    helpLine = defaultdict(int)
+    with open(fileName,'r') as INPUT:
+        for line in INPUT:
             data = line.strip().split("\t")
             geneName = data[0] # not used though
             localPos = int(data[1])

@@ -8,7 +8,7 @@ import numpy
 
 setup(
     name='dxm',
-    version='0.1.0',
+    version='0.1.1',
     author='Jerry Fong',
     author_email='fongj@wustl.edu',
     maintainer='John Edwards',

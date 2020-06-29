@@ -1,55 +1,73 @@
 #!usr/bin/python3
 
 import sys
-import getopt
+#import getopt
 import os
 from collections import defaultdict
 from operator import itemgetter
 import numpy as np
 import dxm
+import argparse
 
-def usage():
-    print('dxm_calliDMR.py finds iDMRs from DXM-solved solutions.\n')
-    print('Usage: '+sys.argv[0]+' -i <inputFile> -o <outPref>')
-    print('\t-v, --vitProbFile\tDXM output file with viterbi probabilities.')
-    print('\t-m, --methylTraceFile\tDXM output file with subpopulation methylation traces.')
-    print('\t-o, --outPref\tPrefix of output files. Default is \'setNamePlease\'')
-    print('\nOPTIONS')
-    print('\t-n, --numCpG\tMinimum number of CpG expected in an i-DMR. Default is 4')
-    print('\t-l, --length\tMinimum length (bp) of an i-DMR. Default is 50')
-    print('\t-p, --purity\tMinimum purity of i-DMR (fraction of CpG that are differential in an i-DMR). Default is 0.99')
+def setup_parser_arguments():
+    #global parser
+    parser = argparse.ArgumentParser(
+            formatter_class=argparse.RawDescriptionHelpFormatter,description='''
+Finds iDMRs from DXM-solved solutions.''')
+    parser.add_argument('-v','--vitProbFile',required=True,help="DXM output file with viterbi probabilities.(REQUIRED).")
+    parser.add_argument('-m','--methylTraceFile',required=True,help="DXM output file with subpopulation methylation traces.")
+    parser.add_argument('-o','--outPref', default="dxm_idmrs", help="Prefix of output files. (Default: dxm_idmrs)")
+    parser.add_argument('-n','--numCpG',default=4, type=int, help="Minimum number of CpG expected in an i-DMR. (Default: 4)")
+    parser.add_argument('-l','--length', default=50, type=int, help="Minimum length (bp) of an i-DMR. (Default: 50)")
+    parser.add_argument('-p','--purity',default=0.99, type=float, help="Minimum purity of i-DMR (fraction of CpG that are differential in an i-DMR). (Default: 0.99)") 
 
-vitProbFile = ''
-methylTraceFile = ''
-outPref = 'dxmSetIDMRnamePlease'
-lengthThresh = 50
-numcpgThresh = 4
-purityThresh = 0.99
+    return parser
 
-try:
-    opts, args = getopt.getopt(sys.argv[1:], "hv:m:o:l:n:p:",["help","vitProbFile=","methylTraceFile=","outPref=",'numCpG=','length=','purity='])
-except getopt.GetoptError:
-    usage()
-    sys.exit(2)
-if len(sys.argv) <= 1:
-    usage()
-    sys.exit(2)
-for opt, arg in opts:
-    if opt in ("-h","--help"):
-        usage()
-        sys.exit(2)
-    elif opt in ("-v","--vitProbFile"):
-        vitProbFile = arg
-    elif opt in ("-m","--methylTraceFile"):
-        methylTraceFile = arg
-    elif opt in ("-o","--outPref"):
-        outPref = arg
-    elif opt in ("-l","--length"):
-        lengthThresh = int(arg)
-    elif opt in ('-n','--numCpG'):
-        numcpgThresh = int(arg)
-    elif opt in ("-p","--purity"):
-        purityThresh = float(arg)
+parser = setup_parser_arguments()
+args = parser.parse_args()
+
+#def usage():
+    #print('dxm_calliDMR.py finds iDMRs from DXM-solved solutions.\n')
+    #print('Usage: '+sys.argv[0]+' -i <inputFile> -o <outPref>')
+    #print('\t-v, --vitProbFile\tDXM output file with viterbi probabilities.')
+    #print('\t-m, --methylTraceFile\tDXM output file with subpopulation methylation traces.')
+    #print('\t-o, --outPref\tPrefix of output files. Default is \'dxm_dmr\'')
+    #print('\nOPTIONS')
+    #print('\t-n, --numCpG\tMinimum number of CpG expected in an i-DMR. Default is 4')
+    #print('\t-l, --length\tMinimum length (bp) of an i-DMR. Default is 50')
+    #print('\t-p, --purity\tMinimum purity of i-DMR (fraction of CpG that are differential in an i-DMR). Default is 0.99')
+
+vitProbFile = args.vitProbFile
+methylTraceFile = args.methylTraceFile
+outPref = args.outPref
+lengthThresh = int(args.length)
+numcpgThresh = int(args.numCpG)
+purityThresh = float(args.purity)
+
+#try:
+    #opts, args = getopt.getopt(sys.argv[1:], "hv:m:o:l:n:p:",["help","vitProbFile=","methylTraceFile=","outPref=",'numCpG=','length=','purity='])
+#except getopt.GetoptError:
+    #usage()
+    #sys.exit(2)
+#if len(sys.argv) <= 1:
+    #usage()
+    #sys.exit(2)
+#for opt, arg in opts:
+    #if opt in ("-h","--help"):
+        #usage()
+        #sys.exit(2)
+    #elif opt in ("-v","--vitProbFile"):
+        #vitProbFile = arg
+    #elif opt in ("-m","--methylTraceFile"):
+        #methylTraceFile = arg
+    #elif opt in ("-o","--outPref"):
+        #outPref = arg
+    #elif opt in ("-l","--length"):
+        #lengthThresh = int(arg)
+    #elif opt in ('-n','--numCpG'):
+        #numcpgThresh = int(arg)
+    #elif opt in ("-p","--purity"):
+        #purityThresh = float(arg)
 
 def getGeneToConsider(inFileName):
     putativeDMRgene = {}
