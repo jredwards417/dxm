@@ -9,6 +9,7 @@ We recommend installing the anaconda (or similar) python distribution, which wil
 
 ### To install:
 Download the repository, then:
+
     pip install .
 
 For user-specific installations, run the install command with the --user flag. 
@@ -24,9 +25,13 @@ The methylation data input file should be in a bed-like format:
 
 ### Input file format notes:
 regionName - please make unique name for each region tested (e.g. gene name)
+
 position1,position2 - e.g., a genomic coordinate. Please provide as integer.
+
 fractionalMethylation - values should be between 0 (fully unmethylated) and 1 (fully methylated)
+
 coverage - sequencing coverage for that position. Please provide as an integer.
+
 All data should be filtered such that coverage is below the maximum expected sequencing coverage, set as the -m flag in dxm_solveMethylation.
 
 
@@ -44,6 +49,7 @@ Deconvolves processed methylation sequencing data.
 Example: dxm_solveMethylation -i sampleInput.bed -o testSample
 
 Notes: 
+
 Set the -m flag to the maximum coverage in the input file.  Increasing -m above the maximum coverage will needlessly increase memory usage.
 
 DXM computational time scales with number of subpopulations, number of CpG, and maximum coverage. DXM solved eRRBS and Methyl-Seq samples for 2 subpopulations at average coverage of 60x in ~2 hours.
