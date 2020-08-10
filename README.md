@@ -20,6 +20,7 @@ The "deprecated NumPy API" and "import_array" warnings can be safely ignored.
 
 ## Quick Start with Example Data
 
+Data for this example can be found in the example_data folder in the installation package. 
 The methylation data input file should be in a bed-like format:
 
 <chr> <position1> <position2> <regionName> <fractionalMethylation> <coverage>
